@@ -41,9 +41,10 @@
 \usepackage{multicol}
 
 \usetikzlibrary{arrows,shapes}
+\newcommand{\refimg}[1]{\footnotesize\textit{#1}}
 
 \author{Alexandre Hulsken (CRIStAL / FOX)}
-\title{Reconnaissance d'émotions par réseaux de neurones à Spikes}
+\title{Reconnaissance d'émotions par réseaux de neurones à spikes}
 
 
 \begin{comment}
@@ -77,16 +78,19 @@ with Beamer overlays. Download the PDF version to see the result.
 \author{Alexandre Hulsken}
 \institute[IRCICA/FOX]
 {
-Université des Sciences et Technologie de Lille \\
+Université des Sciences et Technologies de Lille \\
 \medskip
 %\textit{john@smith.com} % Your email address
 }
-\date{22 mars 2018}
+\date{23 mars 2018}
 
 \begin{document}
 
 \begin{frame}
 \titlepage
+\begin{wrapfigure}{r!}{20mm}
+\includegraphics[scale=0.07]{image/logoFOX.png}
+\end{wrapfigure}
 \vfill
 Encadré par :\par
 Pierre \textsc{Tirilly} \\
@@ -99,15 +103,50 @@ Benjamin \textsc{Allaert}
 %\end{frame}
 
 %------------------------------------------------
-\section{Définir les bases}
+\section{Contexte}
 %------------------------------------------------
 
 \subsection{Contexte}
 \begin{frame}
   \frametitle{Contexte}
-  Méthodes tradi reconnaissance emo
-  Méthide deep learining => tps
-  Nvx modèle SNN
+  \begin{picture}(340, 50)
+  	\put(0, 0){\includegraphics[scale=0.1]{image/img_001.png}}
+  	\put(95, 0){\framebox(150, 50){\shortstack{Programme de\\ reconnaissance émotionnelle}}}
+    \put(275, 20){\shortstack{ÉMOTION}}
+    \put(70, 25){\vector(1, 0){25}}
+    \put(245, 25){\vector(1, 0){25}}
+  \end{picture}
+\end{frame}
+
+%------------------------------------------------
+
+\subsection{Définition}
+\begin{frame}
+  \frametitle{Définition}
+  \begin{block}{Une émotion}
+    Classification discrète d'Ekman en 6 classes
+  \end{block}
+  \begin{figure}
+  	\includegraphics[height=2cm]{image/img_0012_ck.png}
+    \includegraphics[height=2cm]{image/img_0122_ck.png}
+    \includegraphics[height=2cm]{image/img_0012_adfes.png}
+    \includegraphics[height=2cm]{image/img_1502_adfes.png}
+  \end{figure}
+  \refimg{[The extended Cohn-Kanade Dataset (CK+) : A complete dataset for action unit and emotion-specified expression]}\newline
+  \refimg{[Moving faces, looking places: Validation of the Amsterdam Dynamic Facial Expression Set (ADFES)]}
+\end{frame}
+
+%------------------------------------------------
+
+\subsection{Plusieurs architectures}
+\begin{frame}
+  \frametitle{Plusieurs architectures}
+  Différentes architectures pour cette problématique :
+  \begin{enumerate}
+    \item Les méthodes dites traditionnelles
+    \item Le deep learning
+    \item Les réseaux de neurones impulsionnels
+  \end{enumerate}
 \end{frame}
 
 %------------------------------------------------
@@ -116,22 +155,7 @@ Benjamin \textsc{Allaert}
 \begin{frame}
   \frametitle{Problématique}
   \centering
-  \huge{Expérimenter les réseaux de neurones à Spikes}
-\end{frame}
-
-%------------------------------------------------
-
-\subsection{Définitions}
-\begin{frame}
-  \frametitle{Définition}
-  \begin{block}{Une émotion}
-    Il existe différentes manières de représenter une émotion tel que :
-    \begin{itemize}
-      \item Les émotions d'Ekman
-      \item Le FACS
-    \end{itemize}
-    classif discrète ekman 6 classes (joie peur la surprise la colere degout tristesses) + photos
-  \end{block}
+  \huge{Expérimenter les réseaux de neurones à spikes}
 \end{frame}
 
 %------------------------------------------------
@@ -139,21 +163,26 @@ Benjamin \textsc{Allaert}
 \subsection{Le principe de reconnaissance d'expressions faciales}
 \begin{frame}
   \frametitle{Le principe de la reconnaissance}
-  3 étapes:
-  \begin{enumerate}
-    \item Le prétraitement
-    \item L'extraction de modèle
-    \item La classification
-  \end{enumerate}
-  schéma
+  \begin{picture}(340, 200)
+  	\put(5, 125){\includegraphics[scale=0.1]{image/img_001.png}}
+  	\put(0, 50){\dashbox(340, 50)}
+    \put(270, 25){\shortstack{EMOTION}}
+    \put(5, 55){\framebox(80, 40){\shortstack{Prétraitement}}}
+    \put(130, 55){\framebox(80, 40){\shortstack{Extraction de\\ descripteurs}}}
+    \put(255, 55){\framebox(80, 40){Classification}}
+    
+    \put(40, 125){\vector(0, -1){25}}
+    \put(295, 55){\vector(0, -1){18}}
+    \put(85, 75){\vector(1, 0){43}}
+    \put(210, 75){\vector(1, 0){43}}
+  \end{picture}
 \end{frame}
 
-%------------------------------------------------
+%------------------------------------------------ 
 \section{Reconnaître une émotion}
 %------------------------------------------------
 
 \subsection{Le prétraitement de la donnée}
-fusion avec prec
 \begin{frame}
   \frametitle{Le prétraitement}
   \begin{columns}[c] 
@@ -161,7 +190,7 @@ fusion avec prec
       \textbf{Etapes :}
       \begin{itemize}
         \item Extraction d'une zone
-        \item Changement de couleur
+        \item Transformation en niveaux de gris
         \item Extraction de contours
       \end{itemize}
 
@@ -192,6 +221,10 @@ fusion avec prec
   \begin{figure}
   	\includegraphics[scale=0.8]{image/neurone.jpg}
   \end{figure}
+  \begin{picture}(0, 0)
+  	\put(125, 130){\line(1, 0){5}} \put(135, 130){\line(1, 0){5}} \put(145, 130){\line(1, 0){5}} \put(155, 130){\line(1, 0){5}} \put(165, 130){\line(1, 0){5}} \put(175, 130){\line(1, 0){5}}
+  \end{picture}
+  \refimg{[writelatex.s3.amazonaws.com]}
 \end{frame}
 
 %------------------------------------------------
@@ -202,42 +235,23 @@ fusion avec prec
     \centering
     \includegraphics[scale=0.5]{image/SNN1.png}
   \end{figure}
+  \refimg{[writelatex.s3.amazonaws.com/]}
 \end{frame}
 
 %------------------------------------------------
 
 \subsection{La classification}
 \begin{frame}
-	schema SVM
-    separatrice lineaire
-  \frametitle{La classification}
-  \begin{columns}[c]
-    \column{.45\textwidth}
-      \textbf{3 étapes :}
-      \begin{enumerate}
-        \item Acquisition
-        \item Sélection
-        \item Construction
-      \end{enumerate}
-
-    \column{.5\textwidth}
-      \begin{block}{Définition du classifieur}
-      	fonction permettant de reconnaître si un élément se trouve dans un espace
-      \end{block}
-  \end{columns}
+	\frametitle{La classification}
+	\begin{figure}
+    	\centering
+		\includegraphics[scale=0.5]{image/svm.jpg}
+	\end{figure}
+    \refimg{[www.quora.com/How-can-I-use-a-Support-Vector-Machine-in-regression-tasks-SVM}
 \end{frame}
 
 %------------------------------------------------
 \section{Expérimenter l'architecture}
-%------------------------------------------------
-
-\subsection{Les choix de critères de réussite}
-\begin{frame}
-  \frametitle{Les choix de critères de réussite}
-  \centering
-  plus bas (perspective)
-  \Huge{Que choisir?}
-\end{frame}
 %------------------------------------------------
 
 \subsection{Test de difficulté}
@@ -246,12 +260,12 @@ fusion avec prec
     \begin{columns}
       \column[c]{.5\textwidth}
         \begin{figure}
-        \includegraphics[scale=0.15]{image/resultat_exp.png}
+        \includegraphics[scale=0.13]{image/test_exp.png}
         \end{figure}
 
-      \column[c]{.5\textwidth}
+      \column[c]{.55\textwidth}
         \begin{figure}
-        \includegraphics[scale=0.13]{image/test_exp.png}
+        \includegraphics[scale=0.15]{image/resultat_exp.png}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -265,6 +279,19 @@ fusion avec prec
     \centering
     \includegraphics[scale=0.13]{image/archi.png}
   \end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Conclusion}
+\begin{frame}
+  \frametitle{Conclusion}
+  \centering
+  \begin{itemize}
+  \item Un résumé
+  \item Une ouverture
+  \item Une expérience personnelle
+  \end{itemize}
 \end{frame}
 
 %------------------------------------------------
